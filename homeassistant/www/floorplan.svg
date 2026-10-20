@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">Home Assistant Agent 120 平米三室一厅平面图</title>
+  <desc id="desc">包含玄关、客厅、主卧、次卧、书房、厨房、卫生间和阳台的智能家居平面图。</desc>
+  <style>
+    .wall { fill: #f6f8fb; stroke: #263238; stroke-width: 12; stroke-linejoin: round; }
+    .room { stroke: #c8d0d8; stroke-width: 3; }
+    .living { fill: #e7f2ff; } .bed { fill: #f5ecff; } .work { fill: #e9f8f0; }
+    .service { fill: #fff4e5; } .entry { fill: #edf0f5; } .balcony { fill: #e5f7f8; }
+    .label { font: 500 28px sans-serif; fill: #263238; text-anchor: middle; }
+    .sub { font: 18px sans-serif; fill: #607080; text-anchor: middle; }
+    .furniture { fill: #c5d2df; stroke: #91a4b6; stroke-width: 2; }
+    .window { stroke: #5da9e9; stroke-width: 9; }
+    .door { stroke: #91a4b6; stroke-width: 5; fill: none; }
+  </style>
+  <rect class="wall" x="35" y="35" width="1130" height="690" rx="8"/>
+  <rect class="room entry" x="45" y="45" width="185" height="210"/>
+  <rect class="room living" x="230" y="45" width="610" height="360"/>
+  <rect class="room service" x="840" y="45" width="315" height="210"/>
+  <rect class="room work" x="45" y="255" width="185" height="280"/>
+  <rect class="room service" x="840" y="255" width="315" height="150"/>
+  <rect class="room bed" x="45" y="535" width="370" height="180"/>
+  <rect class="room bed" x="415" y="535" width="425" height="180"/>
+  <rect class="room balcony" x="840" y="405" width="315" height="310"/>
+  <line class="window" x1="280" y1="42" x2="520" y2="42"/><line class="window" x1="590" y1="42" x2="780" y2="42"/>
+  <line class="window" x1="70" y1="720" x2="360" y2="720"/><line class="window" x1="465" y1="720" x2="785" y2="720"/>
+  <line class="window" x1="1158" y1="445" x2="1158" y2="675"/>
+  <rect class="furniture" x="370" y="180" width="210" height="92" rx="20"/><rect class="furniture" x="620" y="125" width="130" height="95" rx="8"/>
+  <rect class="furniture" x="85" y="590" width="255" height="85" rx="8"/><rect class="furniture" x="485" y="590" width="285" height="85" rx="8"/>
+  <rect class="furniture" x="80" y="340" width="115" height="70" rx="6"/><rect class="furniture" x="900" y="90" width="200" height="65" rx="6"/>
+  <path class="door" d="M230 200 A75 75 0 0 1 305 275"/><path class="door" d="M415 535 A75 75 0 0 0 490 460"/>
+  <text class="label" x="137" y="142">玄关</text><text class="sub" x="137" y="174">入户 · 安防</text>
+  <text class="label" x="535" y="322">客厅</text><text class="sub" x="535" y="352">会客 · 观影 · 餐区</text>
+  <text class="label" x="997" y="142">厨房</text><text class="sub" x="997" y="174">烹饪 · 清洁</text>
+  <text class="label" x="137" y="470">书房</text><text class="sub" x="137" y="500">专注 · 工作</text>
+  <text class="label" x="997" y="342">卫生间</text><text class="sub" x="997" y="372">排风 · 防漏</text>
+  <text class="label" x="230" y="695">次卧</text><text class="label" x="627" y="695">主卧</text>
+  <text class="label" x="997" y="575">阳台</text><text class="sub" x="997" y="605">洗衣 · 晾晒</text>
+</svg>

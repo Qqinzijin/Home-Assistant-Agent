@@ -1,0 +1,103 @@
+# 120㎡ 三室一厅虚拟住宅。input_* 是仿真器内部状态；Agent 只调用下方
+# light / climate / fan / cover / lock / switch / sensor 等标准 HA 实体。
+input_boolean:
+  entrance_light_state: {name: 玄关灯状态, initial: false}
+  living_room_main_light_state: {name: 客厅主灯状态, initial: false}
+  living_room_ambient_light_state: {name: 客厅氛围灯状态, initial: false}
+  dining_room_light_state: {name: 餐厅灯状态, initial: false}
+  master_bedroom_light_state: {name: 主卧主灯状态, initial: false}
+  master_bedroom_bedside_light_state: {name: 主卧床头灯状态, initial: false}
+  second_bedroom_light_state: {name: 次卧灯状态, initial: false}
+  study_light_state: {name: 书房灯状态, initial: false}
+  kitchen_light_state: {name: 厨房灯状态, initial: false}
+  bathroom_light_state: {name: 卫生间灯状态, initial: false}
+  balcony_light_state: {name: 阳台灯状态, initial: false}
+  master_ac_power: {name: 主卧空调电源, initial: false}
+  second_ac_power: {name: 次卧空调电源, initial: false}
+  living_room_ac_power: {name: 客厅空调电源, initial: false}
+  study_fan_state: {name: 书房风扇状态, initial: false}
+  bathroom_exhaust_state: {name: 卫生间排风扇状态, initial: false}
+  air_purifier_state: {name: 空气净化器状态, initial: false}
+  range_hood_state: {name: 油烟机状态, initial: false}
+  dishwasher_state: {name: 洗碗机状态, initial: false}
+  washing_machine_state: {name: 洗衣机状态, initial: false}
+  front_door_locked_state: {name: 入户门锁状态, initial: true}
+  security_system_armed: {name: 安防系统布防, initial: false}
+  front_door_contact: {name: 入户门门磁, initial: false}
+  kitchen_gas_alarm: {name: 厨房燃气报警, initial: false}
+  bathroom_leak_alarm: {name: 卫生间漏水报警, initial: false}
+
+input_number:
+  living_room_curtain_position: {name: 客厅窗帘开合度, min: 0, max: 100, step: 1, unit_of_measurement: "%", initial: 50}
+  master_bedroom_curtain_position: {name: 主卧窗帘开合度, min: 0, max: 100, step: 1, unit_of_measurement: "%", initial: 30}
+  second_bedroom_curtain_position: {name: 次卧窗帘开合度, min: 0, max: 100, step: 1, unit_of_measurement: "%", initial: 30}
+  clothes_rack_position: {name: 晾衣架高度, min: 0, max: 100, step: 1, unit_of_measurement: "%", initial: 0}
+  study_fan_percentage: {name: 书房风扇档位, min: 0, max: 100, step: 10, unit_of_measurement: "%", initial: 50}
+  living_room_temperature: {name: 客餐厅温度, min: 10, max: 40, step: 0.1, unit_of_measurement: "°C", initial: 28.0}
+  master_bedroom_temperature: {name: 主卧温度, min: 10, max: 40, step: 0.1, unit_of_measurement: "°C", initial: 27.2}
+  second_bedroom_temperature: {name: 次卧温度, min: 10, max: 40, step: 0.1, unit_of_measurement: "°C", initial: 26.5}
+  bathroom_humidity: {name: 卫生间湿度, min: 0, max: 100, step: 1, unit_of_measurement: "%", initial: 72}
+  living_room_illuminance: {name: 客厅照度, min: 0, max: 2000, step: 10, unit_of_measurement: lx, initial: 180}
+  pm25: {name: 室内 PM2.5, min: 0, max: 500, step: 1, unit_of_measurement: "µg/m³", initial: 28}
+
+template:
+  - sensor:
+      - {name: 客餐厅温度, unique_id: lab_living_room_temperature, device_class: temperature, unit_of_measurement: "°C", state: "{{ states('input_number.living_room_temperature') }}"}
+      - {name: 主卧温度, unique_id: lab_master_bedroom_temperature, device_class: temperature, unit_of_measurement: "°C", state: "{{ states('input_number.master_bedroom_temperature') }}"}
+      - {name: 次卧温度, unique_id: lab_second_bedroom_temperature, device_class: temperature, unit_of_measurement: "°C", state: "{{ states('input_number.second_bedroom_temperature') }}"}
+      - {name: 卫生间湿度, unique_id: lab_bathroom_humidity, device_class: humidity, unit_of_measurement: "%", state: "{{ states('input_number.bathroom_humidity') }}"}
+      - {name: 客厅照度, unique_id: lab_living_room_illuminance, device_class: illuminance, unit_of_measurement: lx, state: "{{ states('input_number.living_room_illuminance') }}"}
+      - {name: 室内PM2.5, unique_id: lab_pm25, device_class: pm25, unit_of_measurement: "µg/m³", state: "{{ states('input_number.pm25') }}"}
+  - binary_sensor:
+      - {name: 入户门已打开, unique_id: lab_front_door_contact, device_class: door, state: "{{ is_state('input_boolean.front_door_contact', 'on') }}"}
+      - {name: 厨房燃气报警, unique_id: lab_kitchen_gas_alarm, device_class: gas, state: "{{ is_state('input_boolean.kitchen_gas_alarm', 'on') }}"}
+      - {name: 卫生间漏水报警, unique_id: lab_bathroom_leak_alarm, device_class: moisture, state: "{{ is_state('input_boolean.bathroom_leak_alarm', 'on') }}"}
+      - {name: 安防系统已布防, unique_id: lab_security_armed, device_class: safety, state: "{{ is_state('input_boolean.security_system_armed', 'on') }}"}
+  - light:
+      - {name: 玄关灯, unique_id: lab_entrance_light, state: "{{ states('input_boolean.entrance_light_state') }}", turn_on: {action: input_boolean.turn_on, target: {entity_id: input_boolean.entrance_light_state}}, turn_off: {action: input_boolean.turn_off, target: {entity_id: input_boolean.entrance_light_state}}}
+      - {name: 客厅主灯, unique_id: lab_living_room_main_light, state: "{{ states('input_boolean.living_room_main_light_state') }}", turn_on: {action: input_boolean.turn_on, target: {entity_id: input_boolean.living_room_main_light_state}}, turn_off: {action: input_boolean.turn_off, target: {entity_id: input_boolean.living_room_main_light_state}}}
+      - {name: 客厅氛围灯, unique_id: lab_living_room_ambient_light, state: "{{ states('input_boolean.living_room_ambient_light_state') }}", turn_on: {action: input_boolean.turn_on, target: {entity_id: input_boolean.living_room_ambient_light_state}}, turn_off: {action: input_boolean.turn_off, target: {entity_id: input_boolean.living_room_ambient_light_state}}}
+      - {name: 餐厅灯, unique_id: lab_dining_room_light, state: "{{ states('input_boolean.dining_room_light_state') }}", turn_on: {action: input_boolean.turn_on, target: {entity_id: input_boolean.dining_room_light_state}}, turn_off: {action: input_boolean.turn_off, target: {entity_id: input_boolean.dining_room_light_state}}}
+      - {name: 主卧主灯, unique_id: lab_master_bedroom_light, state: "{{ states('input_boolean.master_bedroom_light_state') }}", turn_on: {action: input_boolean.turn_on, target: {entity_id: input_boolean.master_bedroom_light_state}}, turn_off: {action: input_boolean.turn_off, target: {entity_id: input_boolean.master_bedroom_light_state}}}
+      - {name: 主卧床头灯, unique_id: lab_master_bedroom_bedside_light, state: "{{ states('input_boolean.master_bedroom_bedside_light_state') }}", turn_on: {action: input_boolean.turn_on, target: {entity_id: input_boolean.master_bedroom_bedside_light_state}}, turn_off: {action: input_boolean.turn_off, target: {entity_id: input_boolean.master_bedroom_bedside_light_state}}}
+      - {name: 次卧灯, unique_id: lab_second_bedroom_light, state: "{{ states('input_boolean.second_bedroom_light_state') }}", turn_on: {action: input_boolean.turn_on, target: {entity_id: input_boolean.second_bedroom_light_state}}, turn_off: {action: input_boolean.turn_off, target: {entity_id: input_boolean.second_bedroom_light_state}}}
+      - {name: 书房灯, unique_id: lab_study_light, state: "{{ states('input_boolean.study_light_state') }}", turn_on: {action: input_boolean.turn_on, target: {entity_id: input_boolean.study_light_state}}, turn_off: {action: input_boolean.turn_off, target: {entity_id: input_boolean.study_light_state}}}
+      - {name: 厨房灯, unique_id: lab_kitchen_light, state: "{{ states('input_boolean.kitchen_light_state') }}", turn_on: {action: input_boolean.turn_on, target: {entity_id: input_boolean.kitchen_light_state}}, turn_off: {action: input_boolean.turn_off, target: {entity_id: input_boolean.kitchen_light_state}}}
+      - {name: 卫生间灯, unique_id: lab_bathroom_light, state: "{{ states('input_boolean.bathroom_light_state') }}", turn_on: {action: input_boolean.turn_on, target: {entity_id: input_boolean.bathroom_light_state}}, turn_off: {action: input_boolean.turn_off, target: {entity_id: input_boolean.bathroom_light_state}}}
+      - {name: 阳台灯, unique_id: lab_balcony_light, state: "{{ states('input_boolean.balcony_light_state') }}", turn_on: {action: input_boolean.turn_on, target: {entity_id: input_boolean.balcony_light_state}}, turn_off: {action: input_boolean.turn_off, target: {entity_id: input_boolean.balcony_light_state}}}
+  - fan:
+      - name: 书房风扇
+        unique_id: lab_study_fan
+        state: "{{ states('input_boolean.study_fan_state') }}"
+        percentage: "{{ states('input_number.study_fan_percentage') | int }}"
+        turn_on: {action: input_boolean.turn_on, target: {entity_id: input_boolean.study_fan_state}}
+        turn_off: {action: input_boolean.turn_off, target: {entity_id: input_boolean.study_fan_state}}
+        set_percentage: {action: input_number.set_value, target: {entity_id: input_number.study_fan_percentage}, data: {value: "{{ percentage }}"}}
+      - {name: 卫生间排风扇, unique_id: lab_bathroom_exhaust, state: "{{ states('input_boolean.bathroom_exhaust_state') }}", turn_on: {action: input_boolean.turn_on, target: {entity_id: input_boolean.bathroom_exhaust_state}}, turn_off: {action: input_boolean.turn_off, target: {entity_id: input_boolean.bathroom_exhaust_state}}}
+      - {name: 客厅空气净化器, unique_id: lab_air_purifier, state: "{{ states('input_boolean.air_purifier_state') }}", turn_on: {action: input_boolean.turn_on, target: {entity_id: input_boolean.air_purifier_state}}, turn_off: {action: input_boolean.turn_off, target: {entity_id: input_boolean.air_purifier_state}}}
+  - cover:
+      - {name: 客厅窗帘, unique_id: lab_living_room_curtain, device_class: curtain, state: "{{ 'open' if states('input_number.living_room_curtain_position') | int > 0 else 'closed' }}", position: "{{ states('input_number.living_room_curtain_position') | int }}", open_cover: {action: input_number.set_value, target: {entity_id: input_number.living_room_curtain_position}, data: {value: 100}}, close_cover: {action: input_number.set_value, target: {entity_id: input_number.living_room_curtain_position}, data: {value: 0}}, set_cover_position: {action: input_number.set_value, target: {entity_id: input_number.living_room_curtain_position}, data: {value: "{{ position }}"}}}
+      - {name: 主卧窗帘, unique_id: lab_master_bedroom_curtain, device_class: curtain, state: "{{ 'open' if states('input_number.master_bedroom_curtain_position') | int > 0 else 'closed' }}", position: "{{ states('input_number.master_bedroom_curtain_position') | int }}", open_cover: {action: input_number.set_value, target: {entity_id: input_number.master_bedroom_curtain_position}, data: {value: 100}}, close_cover: {action: input_number.set_value, target: {entity_id: input_number.master_bedroom_curtain_position}, data: {value: 0}}, set_cover_position: {action: input_number.set_value, target: {entity_id: input_number.master_bedroom_curtain_position}, data: {value: "{{ position }}"}}}
+      - {name: 次卧窗帘, unique_id: lab_second_bedroom_curtain, device_class: curtain, state: "{{ 'open' if states('input_number.second_bedroom_curtain_position') | int > 0 else 'closed' }}", position: "{{ states('input_number.second_bedroom_curtain_position') | int }}", open_cover: {action: input_number.set_value, target: {entity_id: input_number.second_bedroom_curtain_position}, data: {value: 100}}, close_cover: {action: input_number.set_value, target: {entity_id: input_number.second_bedroom_curtain_position}, data: {value: 0}}, set_cover_position: {action: input_number.set_value, target: {entity_id: input_number.second_bedroom_curtain_position}, data: {value: "{{ position }}"}}}
+      - {name: 电动晾衣架, unique_id: lab_clothes_rack, device_class: shade, state: "{{ 'open' if states('input_number.clothes_rack_position') | int > 0 else 'closed' }}", position: "{{ states('input_number.clothes_rack_position') | int }}", open_cover: {action: input_number.set_value, target: {entity_id: input_number.clothes_rack_position}, data: {value: 100}}, close_cover: {action: input_number.set_value, target: {entity_id: input_number.clothes_rack_position}, data: {value: 0}}, set_cover_position: {action: input_number.set_value, target: {entity_id: input_number.clothes_rack_position}, data: {value: "{{ position }}"}}}
+  - lock:
+      - {name: 入户门锁, unique_id: lab_front_door_lock, state: "{{ 'locked' if is_state('input_boolean.front_door_locked_state', 'on') else 'unlocked' }}", lock: {action: input_boolean.turn_on, target: {entity_id: input_boolean.front_door_locked_state}}, unlock: {action: input_boolean.turn_off, target: {entity_id: input_boolean.front_door_locked_state}}}
+  - switch:
+      - {name: 厨房油烟机, unique_id: lab_range_hood, state: "{{ states('input_boolean.range_hood_state') }}", turn_on: {action: input_boolean.turn_on, target: {entity_id: input_boolean.range_hood_state}}, turn_off: {action: input_boolean.turn_off, target: {entity_id: input_boolean.range_hood_state}}}
+      - {name: 洗碗机, unique_id: lab_dishwasher, state: "{{ states('input_boolean.dishwasher_state') }}", turn_on: {action: input_boolean.turn_on, target: {entity_id: input_boolean.dishwasher_state}}, turn_off: {action: input_boolean.turn_off, target: {entity_id: input_boolean.dishwasher_state}}}
+      - {name: 阳台洗衣机, unique_id: lab_washing_machine, state: "{{ states('input_boolean.washing_machine_state') }}", turn_on: {action: input_boolean.turn_on, target: {entity_id: input_boolean.washing_machine_state}}, turn_off: {action: input_boolean.turn_off, target: {entity_id: input_boolean.washing_machine_state}}}
+
+climate:
+  - {platform: generic_thermostat, name: 客餐厅空调, unique_id: lab_living_room_ac, heater: input_boolean.living_room_ac_power, target_sensor: sensor.ke_can_ting_wen_du, min_temp: 16, max_temp: 30, target_temp: 26, ac_mode: true, cold_tolerance: 0.3, hot_tolerance: 0.3}
+  - {platform: generic_thermostat, name: 主卧空调, unique_id: lab_master_bedroom_ac, heater: input_boolean.master_ac_power, target_sensor: sensor.zhu_wo_wen_du, min_temp: 16, max_temp: 30, target_temp: 25, ac_mode: true, cold_tolerance: 0.3, hot_tolerance: 0.3}
+  - {platform: generic_thermostat, name: 次卧空调, unique_id: lab_second_bedroom_ac, heater: input_boolean.second_ac_power, target_sensor: sensor.ci_wo_wen_du, min_temp: 16, max_temp: 30, target_temp: 25, ac_mode: true, cold_tolerance: 0.3, hot_tolerance: 0.3}
+
+scene:
+  - name: 回家模式
+    entities: {light.xuan_guan_deng: "on", light.ke_ting_zhu_deng_2: "on", cover.ke_ting_chuang_lian_2: open}
+  - name: 睡眠模式
+    entities: {light.ke_ting_zhu_deng_2: "off", light.can_ting_deng: "off", cover.zhu_wo_chuang_lian: closed, climate.zhu_wo_kong_diao: cool}
+  - name: 离家模式
+    entities: {light.xuan_guan_deng: "off", light.ke_ting_zhu_deng_2: "off", light.can_ting_deng: "off", light.zhu_wo_zhu_deng: "off", lock.ru_hu_men_suo_2: locked}
+  - name: 观影模式
+    entities: {light.ke_ting_zhu_deng_2: "off", light.ke_ting_fen_wei_deng: "on", cover.ke_ting_chuang_lian_2: closed}

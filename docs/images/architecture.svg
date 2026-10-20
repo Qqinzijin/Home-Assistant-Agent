@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 430" role="img" aria-labelledby="title desc">
+  <title id="title">Home Assistant Agent 系统架构</title>
+  <desc id="desc">用户通过企业微信或网页接入 Agent。交互入口接收消息并返回结果；Agent 协调记忆、规划、安全策略、Home Assistant API 和设备，并写入审计日志。</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#4a6378"/></marker>
+  </defs>
+  <style>
+    .box { stroke: #4a6378; stroke-width: 2; rx: 12; }
+    .title { font: 600 21px 'Microsoft YaHei', sans-serif; fill: #1f3344; text-anchor: middle; }
+    .small { font: 16px 'Microsoft YaHei', sans-serif; fill: #486176; text-anchor: middle; }
+    .compact { font-size: 18px; }
+    .line { fill: none; stroke: #4a6378; stroke-width: 2.5; marker-end: url(#arrow); }
+    .note { font: 15px 'Microsoft YaHei', sans-serif; fill: #64788a; text-anchor: middle; }
+  </style>
+  <rect width="1200" height="430" rx="20" fill="#f7fafc"/>
+
+  <rect class="box" x="42" y="165" width="180" height="88" fill="#e7f2ff"/>
+  <text class="title" x="132" y="202">用户</text><text class="small" x="132" y="230">企业微信 / Web</text>
+
+  <rect class="box" x="280" y="165" width="160" height="88" fill="#e9f8f0"/>
+  <text class="title" x="360" y="202">交互入口</text><text class="small" x="360" y="230">接收消息 · 返回结果</text>
+
+  <rect class="box" x="495" y="150" width="180" height="118" fill="#f5ecff"/>
+  <text class="title" x="585" y="194">Agent 编排层</text><text class="small" x="585" y="222">意图理解 · 任务编排</text><text class="small" x="585" y="246">状态解释</text>
+
+  <rect class="box" x="505" y="38" width="160" height="64" fill="#fff4e5"/>
+  <text class="title" x="585" y="76">记忆与偏好服务</text>
+
+  <rect class="box" x="730" y="78" width="150" height="70" fill="#fff4e5"/>
+  <text class="title" x="805" y="120">规划器</text>
+
+  <rect class="box" x="730" y="185" width="150" height="70" fill="#ffecec"/>
+  <text class="title" x="805" y="216">安全策略与确认</text><text class="note" x="805" y="239">权限 · 风险 · 前置条件</text>
+
+  <rect class="box" x="940" y="185" width="230" height="70" fill="#e7f2ff"/>
+  <text class="title compact" x="1055" y="216">Home Assistant API</text><text class="note" x="1055" y="239">REST / WebSocket</text>
+
+  <rect class="box" x="940" y="315" width="230" height="70" fill="#e9f8f0"/>
+  <text class="title" x="1055" y="346">真实或仿真设备</text><text class="note" x="1055" y="369">状态 · 事件</text>
+
+  <rect class="box" x="495" y="318" width="180" height="64" fill="#edf0f5"/>
+  <text class="title" x="585" y="356">审计日志</text>
+
+  <path class="line" d="M222 209 H280"/><path class="line" d="M440 209 H495"/>
+  <path class="line" d="M585 150 V102"/><path class="line" d="M675 181 L730 130"/>
+  <path class="line" d="M675 220 H730"/><path class="line" d="M880 220 H940"/>
+  <path class="line" d="M1055 255 V315"/><path class="line" d="M940 350 H715 Q690 350 675 350"/>
+  <path class="line" d="M495 350 H448 Q415 350 415 300 V266"/>
+</svg>

@@ -1,0 +1,22 @@
+default_config:
+
+homeassistant:
+  name: Home Assistant Agent 智能家庭实验室
+  country: CN
+  time_zone: Asia/Shanghai
+  unit_system: metric
+  temperature_unit: C
+  packages: !include_dir_named packages
+
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+
+lovelace:
+  dashboards:
+    home-twin:
+      mode: yaml
+      title: 家庭数字孪生
+      icon: mdi:floor-plan
+      show_in_sidebar: true
+      filename: dashboards/floorplan.yaml

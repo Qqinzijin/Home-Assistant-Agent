@@ -1,0 +1,15 @@
+# Home Assistant runtime data (database, auth tokens, logs, downloaded assets)
+homeassistant/.storage/
+homeassistant/.cache/
+homeassistant/.ha_run.lock
+homeassistant/blueprints/
+homeassistant/*.db
+homeassistant/*.db-shm
+homeassistant/*.db-wal
+homeassistant/home-assistant.log*
+homeassistant/.HA_VERSION
+homeassistant/deps/
+homeassistant/tts/
+
+# Local API credentials
+.env

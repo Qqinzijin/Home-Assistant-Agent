@@ -1,0 +1,120 @@
+title: 家庭数字孪生
+views:
+  - title: 120㎡ 家庭平面图
+    path: default_view
+    icon: mdi:floor-plan
+    panel: true
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: picture-elements
+            image: /local/floorplan.svg
+            elements:
+              # 玄关
+              - type: state-icon
+                entity: light.xuan_guan_deng
+                style: {left: 7%, top: 7%}
+              - type: state-icon
+                entity: lock.ru_hu_men_suo_2
+                style: {left: 12%, top: 7%}
+              - type: state-icon
+                entity: binary_sensor.ru_hu_men_yi_da_kai
+                style: {left: 17%, top: 7%}
+              # 客厅
+              - type: state-icon
+                entity: light.ke_ting_zhu_deng_2
+                style: {left: 34%, top: 9%}
+              - type: state-icon
+                entity: light.ke_ting_fen_wei_deng
+                style: {left: 42%, top: 9%}
+              - type: state-icon
+                entity: light.can_ting_deng
+                style: {left: 50%, top: 9%}
+              - type: state-icon
+                entity: climate.ke_can_ting_kong_diao
+                style: {left: 64%, top: 9%}
+              - type: state-icon
+                entity: cover.ke_ting_chuang_lian_2
+                style: {left: 76%, top: 35%}
+              - type: state-icon
+                entity: fan.ke_ting_kong_qi_jing_hua_qi
+                style: {left: 69%, top: 35%}
+              - type: state-label
+                entity: sensor.ke_can_ting_wen_du
+                style: {left: 37%, top: 56%, color: '#263238', font-size: 15px}
+              - type: state-label
+                entity: sensor.shi_nei_pm2_5_2
+                style: {left: 48%, top: 56%, color: '#263238', font-size: 15px}
+              # 厨房与卫生间
+              - type: state-icon
+                entity: light.chu_fang_deng_2
+                style: {left: 83%, top: 7%}
+              - type: state-icon
+                entity: switch.chu_fang_you_yan_ji
+                style: {left: 90%, top: 7%}
+              - type: state-icon
+                entity: switch.xi_wan_ji
+                style: {left: 97%, top: 7%}
+              - type: state-icon
+                entity: binary_sensor.chu_fang_ran_qi_bao_jing
+                style: {left: 93%, top: 27%}
+              - type: state-icon
+                entity: light.wei_sheng_jian_deng
+                style: {left: 85%, top: 35%}
+              - type: state-icon
+                entity: fan.wei_sheng_jian_pai_feng_shan
+                style: {left: 92%, top: 35%}
+              - type: state-icon
+                entity: binary_sensor.wei_sheng_jian_lou_shui_bao_jing
+                style: {left: 97%, top: 35%}
+              # 书房
+              - type: state-icon
+                entity: light.shu_fang_deng
+                style: {left: 8%, top: 39%}
+              - type: state-icon
+                entity: fan.shu_fang_feng_shan_2
+                style: {left: 16%, top: 39%}
+              # 次卧与主卧
+              - type: state-icon
+                entity: light.ci_wo_deng
+                style: {left: 10%, top: 75%}
+              - type: state-icon
+                entity: climate.ci_wo_kong_diao
+                style: {left: 18%, top: 75%}
+              - type: state-icon
+                entity: cover.ci_wo_chuang_lian
+                style: {left: 26%, top: 75%}
+              - type: state-icon
+                entity: light.zhu_wo_zhu_deng
+                style: {left: 42%, top: 75%}
+              - type: state-icon
+                entity: light.zhu_wo_chuang_tou_deng
+                style: {left: 50%, top: 75%}
+              - type: state-icon
+                entity: climate.zhu_wo_kong_diao
+                style: {left: 58%, top: 75%}
+              - type: state-icon
+                entity: cover.zhu_wo_chuang_lian
+                style: {left: 66%, top: 75%}
+              # 阳台
+              - type: state-icon
+                entity: light.yang_tai_deng
+                style: {left: 85%, top: 58%}
+              - type: state-icon
+                entity: switch.yang_tai_xi_yi_ji
+                style: {left: 92%, top: 58%}
+              - type: state-icon
+                entity: cover.dian_dong_liang_yi_jia
+                style: {left: 97%, top: 58%}
+          - type: glance
+            title: Agent 重点观测
+            show_state: true
+            entities:
+              - entity: lock.ru_hu_men_suo_2
+                name: 门锁
+              - entity: binary_sensor.an_fang_xi_tong_yi_bu_fang_2
+                name: 安防
+              - entity: binary_sensor.chu_fang_ran_qi_bao_jing
+                name: 燃气
+              - entity: binary_sensor.wei_sheng_jian_lou_shui_bao_jing
+                name: 漏水
